@@ -57,6 +57,8 @@ corporate_domain = [
 
 personal_domain_set = set(personal_domain)
 corporate_domain_set = set(corporate_domain)
+personal_domain = list(personal_domain_set)
+corporate_domain = list(corporate_domain_set)
 
 # 7. Проверьте что в списке личных и корпоративных доменов нет пересечений:
 # ни один домен не должен входить в оба списка одновременно.
@@ -71,7 +73,7 @@ is_corporate = domain in corporate_domain
 
 # 9. Соберите «чистый» текст сообщения без табов и переводов строк: замените "\t" и "\n" на пробел.
 # Сохраните в email["clean_body"].
-clean_body = email["body"].replace("\n", " ").replace("\n", " ")
+clean_body = email["body"].replace("\n", " ").replace("\t", " ")
 email["clean_body"] = clean_body
 
 # 10. Сформируйте текст отправленного письма многострочной f-строкой и сохраните в email["sent_text"]:
@@ -90,8 +92,8 @@ pages = (len(email["sent_text"]) + 499) // 500
 
 # 12. Проверьте пустоту темы и тела письма: создайте переменные is_subject_empty, is_body_empty в котором будет храниться
 # что тема письма содержит данные
-is_subject_empty = email["subject"] = ""
-is_body_empty = email["body"] = ""
+is_subject_empty = not email["subject"].strip()
+is_body_empty = not email["body"].strip()
 
 # 13. Создайте «маску» e-mail отправителя: первые 2 символа логина + "***@" + домен.
 # Запишите в email["masked_from"].
@@ -113,4 +115,4 @@ print(personal_domain)
 print(corporate_domain)
 print(f"Количество страниц для печати = {pages}")
 print(f"Домен входит в список корпоративных доменов: {is_corporate}")
-print(is_subject_empty, is_body_empty)
+print(f'Пустая тема письма: {is_subject_empty}, пустое тело письма: {is_body_empty}')
